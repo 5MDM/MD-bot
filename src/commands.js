@@ -81,8 +81,8 @@ push([
 push([
   "console",
   new SlashCommandBuilder()
-  .setName("consolw")
-  .setDescription("Logs something to the dev's console"),
+  .setName("console")
+  .setDescription("Logs something to my console"),
   async function(e) {
     console.log("New message: " + e);
     await e.reply({
