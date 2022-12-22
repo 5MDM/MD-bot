@@ -82,9 +82,14 @@ push([
   "console",
   new SlashCommandBuilder()
   .setName("console")
-  .setDescription("Logs something to my console"),
+  .setDescription("Logs something to my console")
+  .addStringOption(opt => 
+    opt.setName("text")
+    .setDescription("What to log")
+    .setRequired(true)
+  ),
   async function(e) {
-    console.log("New message: " + e);
+    console.log("New message: " + e.options.getString("text"));
     await e.reply({
       content: "Logged succesfully",
       ephemeral: true,
