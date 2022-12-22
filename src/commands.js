@@ -76,8 +76,22 @@ push([
       });
     }
   },
-])
+]);
 
+push([
+  "console",
+  new SlashCommandBuilder()
+  .setName("consolw")
+  .setDescription("Logs something to the dev's console"),
+  async function(e) {
+    console.log("New message: " + e);
+    await e.reply({
+      content: "Logged succesfully",
+      ephemeral: true,
+    });
+  },
+]);
+/*
 push([
   "button",
   new SlashCommandBuilder()
@@ -86,6 +100,6 @@ push([
   async function(e) {
     
   },
-]);
+]);*/
 
 export {commands, commandMain, commandExec};
