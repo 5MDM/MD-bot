@@ -19,3 +19,4 @@ putCommands(jsonCommands)
     console.error(new Error(`Command "${e.commandName}" not found`));
   }
 }));
+
