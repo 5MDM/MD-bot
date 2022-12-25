@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^1.4.0",
+    "@discordjs/rest": "^1.5.0",
+    "@types/node": "^18.0.6",
+    "discord-api-types": "^0.37.23",
+    "discord.js": "^14.7.1",
+    "node-fetch": "^3.2.6"
+  }
+}
