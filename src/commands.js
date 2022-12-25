@@ -94,11 +94,17 @@ push([
     .setRequired(true)
   ),
   async function(e) {
-    console.log("New message: " + e.options.getString("text"));
-    await e.reply({
-      content: "Logged succesfully",
-      ephemeral: true,
-    });
+    const txt = e.options.getString("text");
+    const [ok, err] = isValidMsg(txt);
+    if(ok) {
+      console.log("New message: " + txt);
+      await e.reply({
+        content: "Logged succesfully",
+        ephemeral: true,
+      });
+    } else {
+      await e.reply({content: "Error: " + err, ephemeral: true});
+    }
   },
 ]);
 /*
