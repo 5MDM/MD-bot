@@ -64,3 +64,8 @@ export function sendBasicMsg(e, msg) {
     msg,
   });
 }
+
+export function isValidMsg(e) {
+  if(e.length > 2000) return [false, "Message is too long"];
+  return [true, null];
+}

@@ -1,5 +1,5 @@
 import {SlashCommandBuilder} from "@discordjs/builders";
-import {sendMsg, sendBasicMsg} from "./framework.js";
+import {sendMsg, sendBasicMsg, isValidMsg} from "./framework.js";
 
 const commands = [];
 const commandMain = [];
@@ -23,8 +23,13 @@ push([
   ),
   async function(e) {
     const txt = e.options.getString("text");
-    await e.reply({content: "Message sent", ephemeral: true});
-    sendBasicMsg(e, txt);
+    const [ok, err] = isValidMsg(txt);
+    if(ok) {
+      await e.reply({content: "Message sent", ephemeral: true});
+      sendBasicMsg(e, txt);
+    } else {
+      await e.reply({content: "Error: " + err, ephemeral: true});
+    }
   },
 ]);
 push([
