@@ -33,10 +33,20 @@ push([
   },
 ]);
 push([
+  "daye",
+  new SlashCommandBuilder()
+  .setName("daye")
+  .setDescription("Shows today's daye"),
+  async function(e) {
+    const daye = Math.round(Date.now()/1000);
+    await e.reply(`Todaye is <t:${daye}:D>`);
+  }
+]);
+push([
   "date",
   new SlashCommandBuilder()
   .setName("date")
-  .setDescription("Show today's real date"),
+  .setDescription("Shows today's real date"),
   async function(e) {
     const date = (() => {
       const year=new Date().getFullYear();
@@ -82,7 +92,6 @@ push([
     }
   },
 ]);
-
 push([
   "console",
   new SlashCommandBuilder()
@@ -107,15 +116,14 @@ push([
     }
   },
 ]);
-/*
 push([
-  "button",
+  "birthday",
   new SlashCommandBuilder()
-  .setName("button")
-  .setDescription("DON'T CLICK"),
+  .setName("birthday")
+  .setDescription("There is nothing here. Go back"),
   async function(e) {
-    
+    await e.reply("Nothing happens <t:1703098500:R>");
   },
-]);*/
+]);
 
 export {commands, commandMain, commandExec};
