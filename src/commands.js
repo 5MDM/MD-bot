@@ -25,8 +25,16 @@ push([
     const txt = e.options.getString("text");
     const [ok, err] = isValidMsg(txt);
     if(ok) {
-      await e.reply({content: "Message sent", ephemeral: true});
-      sendBasicMsg(e, txt);
+      if(e.guild.id != 1060336451566452746
+      && e.guild.id != 1033781958389538850) {
+        await e.reply({content: "Message sent", ephemeral: true});
+        sendBasicMsg(e, txt);
+      } else if(e.user.id == 991058126339977247) {
+        await e.reply({content: "Message sent", ephemeral: true});
+        sendBasicMsg(e, txt);
+      } else {
+        await e.reply({content: "Error: " + err, ephemeral: true});
+      }
     } else {
       await e.reply({content: "Error: " + err, ephemeral: true});
     }
