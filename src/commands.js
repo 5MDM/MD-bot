@@ -1,5 +1,6 @@
 import {SlashCommandBuilder} from "@discordjs/builders";
-import {sendMsg, sendBasicMsg, isValidMsg} from "./framework.js";
+import {sendMsg, sendBasicMsg, isValidMsg, getUserId, getUserGuild} 
+from "./framework.js";
 
 const commands = [];
 const commandMain = [];
@@ -20,20 +21,43 @@ push([
     opt.setName("text")
     .setDescription("What the bot will say")
     .setRequired(true)
+  )
+  .addStringOption(opt => 
+    opt.setName("user")
+    .setDescription("User to impersonate")
+    .setRequired(false)
   ),
   async function(e) {
     const txt = e.options.getString("text");
+    const user = e.options.getString("user");
     const [ok, err] = isValidMsg(txt);
+    
+    async function send() {
+      const usr = getUserGuild(e, getUserId(user));
+      
+      await await e.channel.createWebhook({
+        name: usr.displayName,
+        avatar: usr.displayAvatarURL(),
+      });
+      
+      await e.reply({content: "Message sent", ephemeral: true});
+      sendBasicMsg(e, txt);
+    }
+    
     if(ok) {
+      // e
+      if(e.guild.id == 1060336451566452746
+      && e.user.id  == 757280520295153664) {
+        send();
+      }
+      
       if(e.guild.id != 1060336451566452746
       && e.guild.id != 1033781958389538850) {
-        await e.reply({content: "Message sent", ephemeral: true});
-        sendBasicMsg(e, txt);
+        send();
       } else if(e.user.id == 991058126339977247) {
-        await e.reply({content: "Message sent", ephemeral: true});
-        sendBasicMsg(e, txt);
+        send();
       } else {
-        await e.reply({content: "Error: " + err, ephemeral: true});
+        await e.reply({content: "no", ephemeral: true});
       }
     } else {
       await e.reply({content: "Error: " + err, ephemeral: true});

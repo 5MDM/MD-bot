@@ -41,14 +41,6 @@ export async function listenForCommands(f) {
   return client.on(Events.InteractionCreate, f);
 }
 
-export function getGuild(e) {return e.guildId}
-
-export function getChannel(e) {return e.channelId}
-
-export function getUserId(e) {return e.user.id}
-
-export function getUsername(e) {return e.user.name}
-
 export function isUserBot(e) {return e.bot}
 
 export function sendMsg({guild, channel, msg}) {
@@ -68,4 +60,12 @@ export function sendBasicMsg(e, msg) {
 export function isValidMsg(e) {
   if(e.length > 2000) return [false, "Message is too long"];
   return [true, null];
+}
+
+export function getUserId(mention) {
+  return mention.match(/\d/g).join("");
+}
+
+export function getUserGuild(e, id) {
+  return e.guild.members.cache.get(id);
 }
