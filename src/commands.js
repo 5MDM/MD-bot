@@ -22,23 +22,23 @@ push([
     .setDescription("What the bot will say")
     .setRequired(true)
   )
-  .addStringOption(opt => 
+  /*.addStringOption(opt => 
     opt.setName("user")
     .setDescription("User to impersonate")
     .setRequired(false)
-  ),
+  ),*/
   async function(e) {
     const txt = e.options.getString("text");
-    const user = e.options.getString("user");
+    //const user = e.options.getString("user");
     const [ok, err] = isValidMsg(txt);
     
     async function send() {
-      const usr = getUserGuild(e, getUserId(user));
+      //const usr = getUserGuild(e, getUserId(user));
       
-      await await e.channel.createWebhook({
+      /*await await e.channel.createWebhook({
         name: usr.displayName,
         avatar: usr.displayAvatarURL(),
-      });
+      });*/
       
       await e.reply({content: "Message sent", ephemeral: true});
       sendBasicMsg(e, txt);
