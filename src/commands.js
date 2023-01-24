@@ -22,31 +22,34 @@ push([
     .setDescription("What the bot will say")
     .setRequired(true)
   )
-  /*.addStringOption(opt => 
+  .addStringOption(opt => 
     opt.setName("user")
     .setDescription("User to impersonate")
     .setRequired(false)
-  ),*/
+  ),
   async function(e) {
     const txt = e.options.getString("text");
-    //const user = e.options.getString("user");
+    const user = e.options.getString("user");
     const [ok, err] = isValidMsg(txt);
     
     async function send() {
-      //const usr = getUserGuild(e, getUserId(user));
-      
-      /*await await e.channel.createWebhook({
-        name: usr.displayName,
-        avatar: usr.displayAvatarURL(),
-      });*/
+      if(user != undefined) {
+        const usr = getUserGuild(e, user);
+        const webhook = await e.channel.createWebhook({
+          name: usr.displayName,
+          avatar: usr.displayAvatarURL(),
+        });
+        
+        await webhook.send(txt);
+        await webhook.delete();
+      } else {
+        sendBasicMsg(e, txt);
+      }
       
       await e.reply({content: "Message sent", ephemeral: true});
-      sendBasicMsg(e, txt);
     }
     
     if(ok) {
-      // e
-      
       if(e.guild.id != 1060336451566452746
       && e.guild.id != 1033781958389538850) {
         send();
