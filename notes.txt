@@ -1,0 +1,2 @@
+1. How to get the guild
+You can get the guild from "e.guild"

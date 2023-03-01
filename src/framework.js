@@ -69,3 +69,7 @@ export function getUserId(mention) {
 export function getUserGuild(e, id) {
   return e.guild.members.cache.get(id);
 }
+
+export function getIdFromMention(m) {
+  return m.slice(2, m.length-1);
+}

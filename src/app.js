@@ -19,3 +19,4 @@ putCommands(jsonCommands)
   }
 }));
 
+export {client};
