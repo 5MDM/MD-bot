@@ -22,51 +22,44 @@ push([
     opt.setName("text")
     .setDescription("What the bot will say")
     .setRequired(true)
-  )
-  .addUserOption(opt => 
-    opt.setName("user")
-    .setDescription("User to impersonate")
-    .setRequired(false)
   ),
+  //.addUserOption(opt => 
+  //  opt.setName("user")
+  //  .setDescription("User to impersonate")
+  //  .setRequired(false)
+  //),
   async function(e) {
     const txt = e.options.getString("text");
-    const user = e.options.getString("user");
+    //const user = e.options.getString("user");
     const [ok, err] = isValidMsg(txt);
     
     async function send() {
-      if(user != undefined) {
-        const webhook = await e.channel.createWebhook({
-          name: user.displayName,
-          avatar: user.displayAvatarURL(),
-        });
-        
-        await webhook.send(txt);
-        await webhook.delete();
-      } else {
-        sendBasicMsg(e, txt);
-      }
+      sendBasicMsg(e, txt);
       
       await e.reply({content: "Message sent", ephemeral: true});
     }
     
+    function checkForCurse(msg) {
+      if(msg == "curse test") return true;
+      const removeSpecial = /[a-zA-Z]/g;
+      const curseRegex = /n+(e|i|1|l)+(g|q)+(e|a)+r*/g;
+      
+      msg = msg.match(removeSpecial).join("");
+      msg = msg.match(curseRegex);
+      if(msg === null) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    
     if(ok) {
-      if(e.user.id == 991058126339977247) {
-        /*const ms = client.guilds.cache
-        .map(g => 
-          `Guild Name: ${g.name}\n  Total Members: ${g.members.cache.size}\n Guild ID: ${g.id}`
-        ).join('\n\n');
-        await e.reply(ms);*/
-        send();
-      } else if(e.user.id == 702487902948687953
-      && e.guild.id == 1080267361376026704) {
-        console.log(`tica da cutie: "${txt}"\n`);
-        send();
-      } else if(e.guild.id != 1060336451566452746
-      && e.guild.id != 1033781958389538850) {
+      if(!checkForCurse(txt)) {
         send();
       } else {
-        await e.reply({content: "no", ephemeral: true});
-      }   
+        console.log(`${e.member.user.tag} cursed!`);
+        await e.reply({content: "You can't say slurs", ephemeral: true});
+      }
     } else {
       await e.reply({content: "Error: " + err, ephemeral: true});
     }
